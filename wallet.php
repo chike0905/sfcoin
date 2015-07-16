@@ -70,12 +70,27 @@ try {
             使用履歴
           </h3>
         </div>
-        <div class="ui-body ui-body-d">
+        <div class="ui-body ui-body-d" style="min-height:120px;padding-top:20px;">
           <ul data-role="listview">
-            <li><a href="#">2015/6/17 gossy -2000 SFCoin</a></li>
-            <li><a href="#">2015/6/17 gossy -2000 SFCoin</a></li>
-            <li><a href="#">2015/6/17 gossy -2000 SFCoin</a></li>
-            <li><a href="#">2015/6/17 gossy -2000 SFCoin</a></li>
+            <?php
+            $sents = $pdo->query('select * from sent');
+            $a = 0;
+            foreach($sents as $sent){
+              if($sent['from_id'] == $usr_id){
+                $users = $pdo->query('select * from user;');
+                foreach($users as $user){
+                  if($user['id'] == $sent['to_id']){
+                    $to_user = $user['name'];
+                  }
+                }
+                echo '<li><a href="#">'. $sent["date"] .' '. $to_user .' '.$sent["sent"]. ' SFCoin</a></li>';
+                $a++;
+              }
+            }
+            if($a == 0){
+              echo '現在取引の記録はありません';
+            }
+            ?>
           </ul>
         </div>
       </div>
