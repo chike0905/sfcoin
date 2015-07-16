@@ -54,6 +54,24 @@ try {
               }
             }
             //友人のリストを取得
+            $networks = $pdo->query('select * from network');
+            foreach($networks as $network){
+              if($network['usr_id_1'] == $usr_id){
+                $usr = $pdo->query('select * from user;');
+                foreach($usr as $user){
+                  if($user['name'] == $_SESSION["user_name"]){
+                    $usr_id = $user['id'];
+                  }
+                }
+              } else if($network['usr_id_2'] == $usr_id){
+                $usr = $pdo->query('select * from user;');
+                foreach($usr as $user){
+                  if($user['name'] == $_SESSION["user_name"]){
+                    $usr_id = $user['id'];
+                  }
+                }
+              }
+            }
             //echo '<option value="'.友人名.'">'. 友人名 .'</option>';
           ?>
               <option value="gossy">gossy</option>
