@@ -44,6 +44,8 @@ try {
         </div>
         <div class="ui-body ui-body-d">
         <div class="ui-field-contain">
+        <?php
+         ?>
           <label for="season">相手を選択</label>
           <select name="firends" id="friends" data-native-menu="false">
           <?php
@@ -56,32 +58,31 @@ try {
             //友人のリストを取得
             $networks = $pdo->query('select * from network');
             foreach($networks as $network){
+              $friend_name = NULL;
               if($network['usr_id_1'] == $usr_id){
                 $usr = $pdo->query('select * from user;');
                 foreach($usr as $user){
-                  if($user['name'] == $_SESSION["user_name"]){
-                    $usr_id = $user['id'];
+                  if($user['id'] == $network['usr_id_2']){
+                    $friend_name = $user['name'];
                   }
                 }
               } else if($network['usr_id_2'] == $usr_id){
                 $usr = $pdo->query('select * from user;');
                 foreach($usr as $user){
-                  if($user['name'] == $_SESSION["user_name"]){
-                    $usr_id = $user['id'];
+                  if($user['id'] == $network['usr_id_1']){
+                    $friend_name = $user['name'];
                   }
                 }
               }
+              if(isset($friend_name)){
+                echo "<option value=\'".$firend_name."\'>". $friend_name ."</option>";
+              }
             }
-            //echo '<option value="'.友人名.'">'. 友人名 .'</option>';
           ?>
-              <option value="gossy">gossy</option>
-              <option value="kimikimi">kimikimi</option>
-              <option value="shuya">shuya</option>
-              <option value="w-001">w-001</option>
           </select>
         </div>
         送金金額を入力
-          <input type="number" name="number" pattern="[0-9]*" id="number-pattern" value="">
+          <input type="number" name="number" pattern="[0-9]*" id="number-pattern" value="" min="0">
           <button class="ui-btn ui-btn-inline">送金コード生成</button>
     </div>
     </div>
