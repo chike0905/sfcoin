@@ -8,6 +8,12 @@ $no_login_url = "http://{$_SERVER["HTTP_HOST"]}/sfcoin/login.php";
 header("Location: {$no_login_url}");
 exit;
 }
+//mySQL接続
+try {
+  $pdo = new PDO('mysql:host=localhost;dbname=sfcoin_test;charset=utf8', 'root', 'root', array(PDO::ATTR_EMULATE_PREPARES => false));
+} catch (PDOException $e) {
+  exit('データベース接続失敗。' . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +46,16 @@ exit;
         <div class="ui-field-contain">
           <label for="season">相手を選択</label>
           <select name="firends" id="friends" data-native-menu="false">
+          <?php
+            $usr = $pdo->query('select * from user;');
+            foreach($usr as $user){
+              if($user['name'] == $_SESSION["user_name"]){
+                $usr_id = $user['id'];
+              }
+            }
+            //友人のリストを取得
+            //echo '<option value="'.友人名.'">'. 友人名 .'</option>';
+          ?>
               <option value="gossy">gossy</option>
               <option value="kimikimi">kimikimi</option>
               <option value="shuya">shuya</option>
