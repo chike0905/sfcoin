@@ -76,6 +76,7 @@ try {
             $sents = $pdo->query('select * from sent');
             $a = 0;
             foreach($sents as $sent){
+              //送金した記録
               if($sent['from_id'] == $usr_id){
                 $users = $pdo->query('select * from user;');
                 foreach($users as $user){
@@ -83,7 +84,17 @@ try {
                     $to_user = $user['name'];
                   }
                 }
-                echo '<li><a href="#">'. $sent["date"] .' '. $to_user .' '.$sent["sent"]. ' SFCoin</a></li>';
+                echo '<li><a href="#">'. $sent["date"] .' '. $to_user .'  <font color="red">'.$sent["sent"]. '</font> SFCoin</a></li>';
+                $a++;
+              }//送金された記録
+              else if($sent['to_id'] == $usr_id){
+                $users = $pdo->query('select * from user;');
+                foreach($users as $user){
+                  if($user['id'] == $sent['from_id']){
+                    $from_user = $user['name'];
+                  }
+                }
+                echo '<li><a href="#">'. $sent["date"] .' '. $from_user .' '.$sent["sent"]. ' SFCoin</a></li>';
                 $a++;
               }
             }
