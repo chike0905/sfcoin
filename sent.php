@@ -44,9 +44,8 @@ try {
         </div>
         <div class="ui-body ui-body-d">
         <div class="ui-field-contain">
-        <?php
-         ?>
-          <label for="season">相手を選択</label>
+        <form action="sentback.php" method="post">
+          <label for="to">相手を選択</label>
           <select name="firends" id="friends" data-native-menu="false">
           <?php
             $usr = $pdo->query('select * from user;');
@@ -80,10 +79,11 @@ try {
             }
           ?>
           </select>
-        </div>
         送金金額を入力
-          <input type="number" name="number" pattern="[0-9]*" id="number-pattern" value="" min="0">
-          <button class="ui-btn ui-btn-inline">送金コード生成</button>
+          <input type="number" name="mount" pattern="[0-9]*" id="number-pattern" value="" min="0">
+          <input type="submit" class="ui-btn ui-btn-inline" value="送金">
+        </form>
+        </div>
     </div>
     </div>
     <div data-role="footer">
