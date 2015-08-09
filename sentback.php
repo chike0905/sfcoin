@@ -16,7 +16,7 @@ try {
 }
 
 $sent_mount = $_POST["mount"];//送金金額
-$to_user = $_POST["friend"];//送る相手
+$to_user = $_POST["friends"];//送る相手
 
 //送金元のid取得
 $usr = $pdo->query('select * from user;');
@@ -117,7 +117,7 @@ if ($flag){
           </h3>
         </div>
         <div class="ui-body ui-body-d" style="min-height:120px;padding-top:20px;">
-          送金完了
+        <?php echo $to_user;?> へ<?php echo $sent_mount?>SFCoin 送金しました
         </div>
       </div>
     </div>

@@ -46,7 +46,7 @@ try {
         <div class="ui-field-contain">
         <form action="sentback.php" method="post">
           <label for="to">相手を選択</label>
-          <select name="firends" id="friends" data-native-menu="false">
+          <select name="friends" id="friends" data-native-menu="false">
           <?php
             $usr = $pdo->query('select * from user;');
             foreach($usr as $user){
@@ -74,7 +74,7 @@ try {
                 }
               }
               if(isset($friend_name)){
-                echo "<option value=\'".$firend_name."\'>". $friend_name ."</option>";
+                echo "<option value='$friend_name'>". $friend_name ."</option>";
               }
             }
           ?>
