@@ -1,5 +1,4 @@
 <?php
-<?php
 session_start();
 // ログイン済みかどうかの変数チェックを行う
 if (!isset($_SESSION["user_name"])) {
@@ -94,6 +93,31 @@ if ($flag){
           </h3>
         </div>
         <div class="ui-body ui-body-d">
+          <?php
+            $usr = $pdo->query('select * from user;');
+            foreach($usr as $user){
+              if($user['name'] == $_SESSION["user_name"]){
+                $usr_id = $user['id'];
+              }
+            }
+            $coins = $pdo->query('select * from wallet');
+            foreach($coins as $coin){
+              if($coin['id'] == $usr_id){
+                $coin_m = $coin['coin'];
+              }
+            }
+            echo '<span id="coinmount">'. $coin_m .'</span> SFCoin';
+          ?>
+        </div>
+      </div>
+      <div id="history">
+        <div class="ui-bar ui-bar-d">
+          <h3>
+            使用履歴
+          </h3>
+        </div>
+        <div class="ui-body ui-body-d" style="min-height:120px;padding-top:20px;">
+          送金完了
         </div>
       </div>
     </div>
@@ -113,4 +137,3 @@ if ($flag){
   </div>
 </body>
 </html>
-
