@@ -66,10 +66,27 @@ if ($flag){
 }
 
 //ユーザー間の距離を縮める
-$new_cost = $distance / 2;
-$flag = $pdo->query("UPDATE `network` SET `cost` = '$new_cost' WHERE (`usr_id_1` = '$my_id' AND `usr_id_2` = '$mining_id') OR (`usr_id_2` = '$my_id' AND `usr_id_1` = '$mining_id');");
-if ($flag){
+//2015.8.19
+//my_idとmining_idでのつながりを持つか調べ、持たない場合はつながりを作成
+//つながりを持つ場合は距離を半減させて更新
+$networks = $pdo->query("select * from network where (usr_id_1 = '$my_id' AND usr_id_2 = '$mining_id') OR (usr_id_2 = '$my_id' AND usr_id_1 = '$mining_id');");
+$network = $networks->fetch(PDO::FETCH_ASSOC);
+if(!$network){
+  echo '新しいつながりです</br>';
+  $insert = $pdo->prepare("INSERT INTO network (usr_id_1,usr_id_2,cost) VALUE ('$my_id','$mining_id','$distance') ");
+  $flag = $insert->execute();
+  if ($flag){
     print('データの追加に成功しました<br>');
-}else{
+  }else{
     print('データの追加に失敗しました<br>');
+  }
+} else {
+  echo '既存のつながりです<br/>';
+  $new_cost = $distance / 2;
+  $flag = $pdo->query("UPDATE `network` SET `cost` = '$new_cost' WHERE (`usr_id_1` = '$my_id' AND `usr_id_2` = '$mining_id') OR (`usr_id_2` = '$my_id' AND `usr_id_1` = '$mining_id');");
+  if ($flag){
+    print('データの追加に成功しました<br>');
+  }else{
+    print('データの追加に失敗しました<br>');
+  }
 }
