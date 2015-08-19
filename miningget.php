@@ -15,15 +15,34 @@ try {
 //自分と相手のidを取得
 $usr = $pdo->query('select * from user;');
 foreach($usr as $user){
-  if($user["name"] === "chike"/*$_SESSION["user_name"]*/){
+  if($user["name"] === "kimikimi"/*$_SESSION["user_name"]*/){
     $my_id = $user["id"];
   } else if($user["name"] === $mininguser){
     $mining_id = $user["id"];
   }
 }
 //発行量を確定
+require_once('dijkstra.php');
+//距離計算のための配列作成
+
+//user table行数（user 数）の取得
+$usrnum = $pdo->query('SELECT COUNT(*) FROM user;');
+$usernum = $usrnum->fetch(PDO::FETCH_NUM);
+for ($i = 1; $i <= $usernum[0]; $i++) {
+  //友人リスト取得
+  $usr = $pdo->query('select * from network where usr_id_1 = ' . $i);
+  foreach ($usr as $value) {
+    $friend_id = $value["usr_id_2"];
+    $link[$i][$friend_id] = $value["cost"];
+    $link[$friend_id][$i] = $value["cost"];
+  }
+}
+$distance = dijkstra($link,$my_id,$mining_id);
+var_dump($distance);
 $mining_amount = 100;
 
+
+/*
 //自分のwalletに上乗せ
 $me = $pdo->query("select coin from wallet where id = '$my_id';");
 $me_coin = $me->fetch(PDO::FETCH_ASSOC);
