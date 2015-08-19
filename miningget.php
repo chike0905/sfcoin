@@ -15,7 +15,7 @@ try {
 //自分と相手のidを取得
 $usr = $pdo->query('select * from user;');
 foreach($usr as $user){
-  if($user["name"] === "kimikimi"/*$_SESSION["user_name"]*/){
+  if($user["name"] === "gossy"/*$_SESSION["user_name"]*/){
     $my_id = $user["id"];
   } else if($user["name"] === $mininguser){
     $mining_id = $user["id"];
@@ -66,3 +66,10 @@ if ($flag){
 }
 
 //ユーザー間の距離を縮める
+$new_cost = $distance / 2;
+$flag = $pdo->query("UPDATE `network` SET `cost` = '$new_cost' WHERE (`usr_id_1` = '$my_id' AND `usr_id_2` = '$mining_id') OR (`usr_id_2` = '$my_id' AND `usr_id_1` = '$mining_id');");
+if ($flag){
+    print('データの追加に成功しました<br>');
+}else{
+    print('データの追加に失敗しました<br>');
+}
