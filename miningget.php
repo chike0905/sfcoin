@@ -21,5 +21,30 @@ foreach($usr as $user){
     $mining_id = $user["id"];
   }
 }
-var_dump($my_id);
-var_dump($mining_id);
+//発行量を確定
+$mining_amount = 100;
+
+//自分のwalletに上乗せ
+$me = $pdo->query("select coin from wallet where id = '$my_id';");
+$me_coin = $me->fetch(PDO::FETCH_ASSOC);
+$me_coin_new = $me_coin["coin"] + $mining_amount;
+$flag = $pdo->query("UPDATE `wallet` SET `coin` = '$me_coin_new' WHERE `id` = '$my_id';");
+if ($flag){
+    print('データの追加に成功しました<br>');
+}else{
+    print('データの追加に失敗しました<br>');
+}
+
+//相手のwalletに上乗せ
+$mining = $pdo->query("select coin from wallet where id = '$mining_id';");
+$mining_coin = $mining->fetch(PDO::FETCH_ASSOC);
+$mining_coin_new = $mining_coin["coin"] + $mining_amount;
+$flag = $pdo->query("UPDATE `wallet` SET `coin` = '$mining_coin_new' WHERE `id` = '$mining_id';");
+if ($flag){
+    print('データの追加に成功しました<br>');
+}else{
+    print('データの追加に失敗しました<br>');
+}
+
+//ユーザー間の距離を縮める
+
