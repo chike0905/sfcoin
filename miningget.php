@@ -38,11 +38,11 @@ for ($i = 1; $i <= $usernum[0]; $i++) {
   }
 }
 $distance = dijkstra($link,$my_id,$mining_id);
-var_dump($distance);
-$mining_amount = 100;
+//発行量の調節
+$mining_basic = 10;
+$mining_amount = $mining_basic * $distance;
 
 
-/*
 //自分のwalletに上乗せ
 $me = $pdo->query("select coin from wallet where id = '$my_id';");
 $me_coin = $me->fetch(PDO::FETCH_ASSOC);
@@ -66,4 +66,3 @@ if ($flag){
 }
 
 //ユーザー間の距離を縮める
-
